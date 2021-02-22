@@ -11,7 +11,8 @@
       <li
         class="list-group-item list-group-item-action"
         style="cursor: pointer"
-        id=<%- item.Id %>
+        onclick="change(this)"
+        id=<%- item.Preview %>
         >
         <div class="row"><strong><%= item.Track %></strong></div>
         <div class="row"><em><%= item.Artist %></em></div>
@@ -20,15 +21,13 @@
           target="_blank" class="row"><%= item.Preview %></a
         >
       </li>
-    <%} %> <% } else { %>
+    <%} } else { %>
       <pre>Something went wrong</pre>
     <% } %>
 </ul>
 <a href="/">Back To Search</a>
-<% for (item of data) { %>
-    <script>
-      document.getElementById(item).addEventListener("click", function () {
-        console.log(item.Preview)
-      });
-    </script>
-<% } %>
+<script>
+  function change(e) {
+    window.location.assign('/sent?link='+e.id)
+  }
+</script>
