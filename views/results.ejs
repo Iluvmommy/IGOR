@@ -11,12 +11,15 @@
       <li
         class="list-group-item list-group-item-action"
         style="cursor: pointer"
-        onclick="change(this)"
-        id=<%- item.Preview %>
         >
-        <div class="row"><strong><%= item.Track %></strong></div>
-        <div class="row"><em><%= item.Artist %></em></div>
-        <div class="row"><em><%= item.Collection %></em></div>
+        <div
+          onclick="change(this)"
+          id=<%- item.Preview %>
+        >
+          <div class="row"><strong><%= item.Track %></strong></div>
+          <div class="row"><em><%= item.Artist %></em></div>
+          <div class="row"><em><%= item.Collection %></em></div>
+        </div>
         <a href=<%- item.Preview %>
           target="_blank" class="row"><%= item.Preview %></a
         >
