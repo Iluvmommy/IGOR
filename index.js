@@ -3,11 +3,13 @@ const app = express();
 const cors = require("cors");
 const chalk = require("chalk");
 const axios = require("axios");
-const AV = require('av')
+const AV = require("av");
+require("aac");
+const pcm = require('pcm-util')
 
 app.use(
   cors({
-    origin: "https://itunes.apple.com",
+    origin: ["http://itunes.apple.com/", "https://itunes.apple.com/"],
   })
 );
 
@@ -33,25 +35,32 @@ app.get("/results", async function (req, res) {
           Collection: item[i].collectionName,
           Track: item[i].trackName,
           Preview: item[i].previewUrl,
-          Id: item[i].trackId
+          Id: item[i].trackId,
         });
       }
       return arr;
     })
-    .then((arr) => res.render("results.ejs", {res: res, data: arr}))
+    .then((arr) => res.render("results.ejs", { res: res, data: arr }))
     .catch((e) => console.log(e));
 });
 
-app.get('/sent', (req, res) => {
-  res.render("sent.ejs")
-})
+app.get("/sending", async (req, res) => {
+  try {
+    var url = req.query.url.replace("https", "http");
+    var asset = AV.Asset.fromURL(url);
 
-app.get("/sending", (req, res) => {
-  var asset = AV.Asset.fromURL(req.query.url)
-  asset.decodeToBuffer(function(buffer) {
-    console.log(buffer)
-  })
-})
+    console.log(chalk.cyan("Converting to buffer..."));
+    await asset.decodeToBuffer(function (buffer) {
+
+      console.log(chalk.green("Done Converting"));
+
+      
+      return res.render("sent.ejs", {buffer: buffer.slice(0, 10)});
+    });
+  } catch (e) {
+    return res.render("error.ejs", { error: e });
+  }
+});
 
 app.listen(3000, () => {
   console.log(chalk.blue("Server Ready!"));
