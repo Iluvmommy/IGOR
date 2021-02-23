@@ -47,6 +47,8 @@ app.get("/results", async function (req, res) {
 app.get("/sending", async (req, res) => {
   try {
     var url = req.query.url.replace("https", "http");
+    if (url.includes("m4v"))
+      throw new Error;
     var asset = AV.Asset.fromURL(url);
 
     console.log(chalk.cyan("Converting to buffer..."));
@@ -54,14 +56,17 @@ app.get("/sending", async (req, res) => {
 
       console.log(chalk.green("Done Converting"));
 
-      
-      return res.render("sent.ejs", {buffer: buffer.slice(0, 10)});
+      return res.send(Object.values(buffer))
     });
   } catch (e) {
     return res.render("error.ejs", { error: e });
   }
 });
 
-app.listen(3000, () => {
+app.get("/hi", (req, res) => {
+  res.send("hi")
+})
+
+app.listen(8080, () => {
   console.log(chalk.blue("Server Ready!"));
 });
