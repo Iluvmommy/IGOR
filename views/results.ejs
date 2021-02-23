@@ -1,0 +1,33 @@
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+  crossorigin="anonymous"
+/>
+<h2>Click to Send to Arduino</h2>
+<ul class="list-group">
+  <% if (data) {%> 
+    <% for (item of data) {%>
+      <li
+        class="list-group-item list-group-item-action"
+        style="cursor: pointer"
+        onclick="change(this)"
+        id=<%- item.Preview %>
+        >
+        <div class="row"><strong><%= item.Track %></strong></div>
+        <div class="row"><em><%= item.Artist %></em></div>
+        <div class="row"><em><%= item.Collection %></em></div>
+        <a href=<%- item.Preview %>
+          target="_blank" class="row"><%= item.Preview %></a
+        >
+      </li>
+    <%} } else { %>
+      <pre>Something went wrong</pre>
+    <% } %>
+</ul>
+<a href="/">Back To Search</a>
+<script>
+  function change(e) {
+    window.location.assign('/sending?url='+e.id)
+  }
+</script>
