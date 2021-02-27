@@ -4,25 +4,64 @@
   integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
   crossorigin="anonymous"
 />
-<h2>Click to Send to Arduino</h2>
+<h2>Click to Convert</h2>
 <ul class="list-group">
   <% if (data) {%> 
     <% for (item of data) {%>
       <li
         class="list-group-item list-group-item-action"
-        style="cursor: pointer"
         >
-        <div
-          onclick="change(this)"
-          id=<%- item.Preview %>
-        >
+        <div>
           <div class="row"><strong><%= item.Track %></strong></div>
           <div class="row"><em><%= item.Artist %></em></div>
           <div class="row"><em><%= item.Collection %></em></div>
+          <div>
+            <button 
+              onclick="change(this)"
+              class="btn btn-secondary"
+              id="filters/none"
+              value="<%= item.Preview +';'+ item.Artist +';'+ item.Track %>"
+            >no filter</button>
+            <button 
+              onclick="change(this)"
+              class="btn btn-disabled"
+              id="filters/dft"
+              value="<%= item.Preview +';'+ item.Artist +';'+ item.Track %>"
+            >DFT</button>
+            <button 
+              onclick="change(this)"
+              class="btn btn-disabled"
+              id="filters/fft"
+              value="<%= item.Preview +';'+ item.Artist +';'+ item.Track %>"
+            >FFT</button>
+            <button 
+              onclick="change(this)"
+              class="btn btn-disabled"
+              value="filters/adsr"
+              artist=<%- item.Artist %>
+              id=<%- item.Track %>
+              value="<%= item.Preview +';'+ item.Artist +';'+ item.Track %>"
+            >ADSR</button>
+            <button 
+              onclick="change(this)"
+              class="btn btn-disabled"
+              id="filters/filter"
+              value="<%= item.Preview +';'+ item.Artist +';'+ item.Track %>"
+            >IIRFilter</button>
+            <button 
+              onclick="change(this)"
+              class="btn btn-disabled"
+              id="filters/delay"
+              value="<%= item.Preview +';'+ item.Artist +';'+ item.Track %>"
+            >Delay</button>
+            <button 
+              onclick="change(this)"
+              class="btn btn-disabled"
+              id="filters/reverb"
+              value="<%= item.Preview +';'+ item.Artist +';'+ item.Track %>"
+            >Reverb</button>
+          </div>
         </div>
-        <a href=<%- item.Preview %>
-          target="_blank" class="row"><%= item.Preview %></a
-        >
       </li>
     <%} } else { %>
       <pre>Something went wrong</pre>
@@ -31,6 +70,8 @@
 <a href="/">Back To Search</a>
 <script>
   function change(e) {
-    window.location.assign('/sending?url='+e.id)
+    const arr = e.value.split(";")
+    console.log(arr, e.value)
+    window.location.assign(`/${e.id}?track=${arr[2]}&artist=${arr[1]}&url=${arr[0]}`)
   }
 </script>
