@@ -7,7 +7,14 @@
 <div class="m-3">
   <h2 class="text-primary">Sent To Firebase</h2>
   <div class="mx-3">
-    <a class="row" target="_blank" href="<%= url %>" url %>>Listen</a>
+    <% if (url.includes("audio-ssl.itunes.apple.com")) { %>
+      <video controls autoplay name="media">
+        <source src="<%= url %>" type="audio/x-m4a">
+      </video>
+    <% } else { %>
+      <iframe width="100%" height="500" src="<%= url %>"></iframe>
+    <% } %>
+    <a class="row" target="_blank" href="<%= url %>" url %>>Listen Link</a>
     <a class="row" href="/">Back To Search</a>
   </div>
 </div>

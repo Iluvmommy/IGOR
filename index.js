@@ -3,6 +3,7 @@ const app = express();
 const cors = require("cors");
 const chalk = require("chalk");
 require('./firebase')
+require('dotenv').config();
 
 app.use(
   cors({
